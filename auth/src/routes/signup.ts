@@ -39,7 +39,7 @@ router.post(
     const userJwt = jwt.sign( {
       id: user.id,
       email: user.email
-    }, 'asdf')
+    }, process.env.JWT_KEY as string);
 
     // store jwt on session object
     req.session = {

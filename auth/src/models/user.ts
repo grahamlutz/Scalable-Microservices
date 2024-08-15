@@ -27,6 +27,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   }
+}, {
+  toJSON: {
+    transform(doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.password;
+      delete ret.__v;
+    }
+  }
 });
 
 // use function keyword to preserve `this`
@@ -35,7 +44,7 @@ userSchema.pre('save', async function(done) {
     const hashed = await Password.toHash(this.get('password'));
     this.set('password', hashed);
   };
-  
+
   done();
 });
 
