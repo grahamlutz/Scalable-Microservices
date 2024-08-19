@@ -20,7 +20,6 @@ export class RequestValidationError extends CustomError {
       return { message: err.msg };
     });
 
-    console.log(errors);
     return errors;
   };
 };
