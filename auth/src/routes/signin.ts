@@ -13,7 +13,7 @@ router.post('/api/users/signin',
   [
     body('email')
       .isEmail()
-      .withMessage('email but be valid'),
+      .withMessage('email must be valid'),
     body('password')
       .trim()
       .notEmpty()
@@ -26,13 +26,13 @@ router.post('/api/users/signin',
     const existingUser = await User.findOne({ email });
 
     if (!existingUser) {
-      throw new BadRequestError('Invalid credentials 1');
+      throw new BadRequestError('Invalid credentials');
     }
 
     const passwordsMatch = await Password.compare(existingUser.password, password);
 
     if (!passwordsMatch) {
-      throw new BadRequestError('Invalid credentials 2');
+      throw new BadRequestError('Invalid credentials');
     }
 
     // generate JWT 
