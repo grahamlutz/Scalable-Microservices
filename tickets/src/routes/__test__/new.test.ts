@@ -32,7 +32,7 @@ it('returns an error if an invalid title is provided', async () => {
     })
     .expect(400);
 
-    await request(app)
+  await request(app)
     .post('/api/tickets')
     .set('Cookie', global.signin())
     .send({
@@ -42,7 +42,22 @@ it('returns an error if an invalid title is provided', async () => {
 });
 
 it('returns an error if an invalid price is provided', async () => {
-  
+  await request(app)
+    .post('/api/tickets')
+    .set('Cookie', global.signin())
+    .send({
+      title: 'Tada',
+      price: -10
+    })
+    .expect(400);
+
+  await request(app)
+    .post('/api/tickets')
+    .set('Cookie', global.signin())
+    .send({
+      title: 'Tada',
+    })
+    .expect(400);
 });
 
 it('creates a ticket with valid inputs', async () => {
