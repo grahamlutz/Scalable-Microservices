@@ -4,6 +4,8 @@ import { json } from "body-parser";
 import cookieSession from "cookie-session";
 import { errorHandler, NotFoundError } from "@gtl-tix/common";
 
+import { createTicketRouter } from "./routes/new";
+
 const app = express();
 
 // trust traffic from nginx proxy
@@ -19,6 +21,7 @@ app.use(
 )
 
 // Routes
+app.use(createTicketRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
