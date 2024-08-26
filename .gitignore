@@ -13,6 +13,7 @@ logs
 results
 tmp
 common
+common/*
 
 # Build
 public/css/main.css
