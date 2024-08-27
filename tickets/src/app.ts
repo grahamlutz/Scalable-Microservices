@@ -6,6 +6,7 @@ import { errorHandler, NotFoundError, currentUser } from "@gtl-tix/common";
 
 import { createTicketRouter } from "./routes/new";
 import { showTicketRouter } from './routes/show';
+import { getTicketsRouter } from './routes/index';
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(currentUser);
 // Routes
 app.use(createTicketRouter);
 app.use(showTicketRouter);
+app.use(getTicketsRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
