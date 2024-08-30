@@ -25,15 +25,15 @@ router.put('/api/tickets/:id',
             throw new NotFoundError();
         }
 
-        // if (ticket.orderId) {
-        //     throw new BadRequestError('Cannot edit a reserved ticket');
-        // }
+        if (ticket.userId !== req.currentUser!.id) {
+            throw new NotAuthorizedError();
+        }
 
-        // ticket.set({
-        //     title: req.body.title,
-        //     price: req.body.price
-        // });
-        // await ticket.save();
+        ticket.set({
+            title: req.body.title,
+            price: req.body.price
+        });
+        await ticket.save();
         
         res.send(ticket);
     }
