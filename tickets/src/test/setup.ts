@@ -8,6 +8,7 @@ declare global {
 }
 
 jest.setTimeout(100000);
+jest.mock('../nats-wrapper');
 
 let mongo: any;
 beforeAll(async () => {
@@ -20,6 +21,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  jest.clearAllMocks();
   const collections = await mongoose.connection.db?.collections();
 
   if (!collections) return ;
