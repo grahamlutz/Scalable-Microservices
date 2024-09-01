@@ -18,6 +18,7 @@ stan.on('connect', async () => {
       id: '123',
       title: 'concert',
       price: 20,
+      userId: '123'
     });
     console.log('Event published');
   } catch (err) {
