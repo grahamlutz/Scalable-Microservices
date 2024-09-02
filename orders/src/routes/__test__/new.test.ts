@@ -51,6 +51,4 @@ it('reserves a ticket', async () => {
     .expect(201);
 });
 
-it('emits an order created event', async () => {  
-
-});
+it.todo('emits an order created event');
