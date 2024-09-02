@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { validateRequest, NotFoundError, requireAuth, NotAuthorizedError, BadRequestError, OrderStatus } from '@gtl-tix/common';
+import { validateRequest, NotFoundError, requireAuth, BadRequestError, OrderStatus } from '@gtl-tix/common';
 import { Ticket } from '../models/ticket';
 import { Order } from '../models/order';
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
