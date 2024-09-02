@@ -1,16 +1,18 @@
 import mongoose from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { Order, OrderStatus } from "./order";
 
 interface TicketAttrs {
   title: string;
   price: number;
   id: string;
+  version: number;
 }
 
 export interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
-  version?: number;
+  version: number;
   orderId?: string;
   isReserved(): Promise<boolean>;
 }
@@ -32,6 +34,10 @@ const ticketSchema = new mongoose.Schema({
   orderId: {
     type: String,
   },
+  version: {
+    type: Number,
+    default: 0,
+  },
 }, {
   toJSON: {
     transform(doc, ret) {
@@ -41,14 +47,15 @@ const ticketSchema = new mongoose.Schema({
   },
 });
 
-// ticketSchema.set("versionKey", "version");
-// ticketSchema.plugin(updateIfCurrentPlugin);
+ticketSchema.set("versionKey", "version");
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket({
     _id: attrs.id,
     title: attrs.title,
     price: attrs.price,
+    version: attrs.version,
   });
 };
 

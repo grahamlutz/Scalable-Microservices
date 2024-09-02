@@ -12,6 +12,7 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 
     const ticket = Ticket.build({
       id,
+      version: 0,
       title,
       price,
     });

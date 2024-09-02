@@ -5,6 +5,7 @@ interface TicketAttrs {
   title: string;
   price: number;
   userId: string;
+  version: number;
 }
 
 interface TicketDoc extends mongoose.Document {
@@ -30,6 +31,10 @@ const ticketSchema = new mongoose.Schema({
   userId: {
     type: String,
     required: true
+  },
+  version: {
+    type: Number,
+    default: 0
   }
 }, {
   toJSON: {
