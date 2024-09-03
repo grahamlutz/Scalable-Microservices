@@ -4,7 +4,8 @@ const buildTicket = () => {
   return Ticket.build({
     title: 'concert',
     price: 20,
-    userId: '123'
+    userId: '123',
+    version: 0
   });
 } 
 
