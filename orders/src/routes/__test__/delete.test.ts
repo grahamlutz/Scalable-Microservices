@@ -11,6 +11,7 @@ it('marks an order as cancelled', async () => {
     id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Concert',
     price: 20,
+    version: 0,
   });
   await ticket.save();
 
@@ -40,6 +41,7 @@ it('returns an error if one user tries to cancel another users order', async () 
     id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Concert',
     price: 20,
+    version: 0,
   });
   await ticket.save();
 
@@ -65,6 +67,7 @@ it('publishes an event to cancel an order', async () => {
     id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Concert',
     price: 20,
+    version: 0,
   });
   await ticket.save();
 
