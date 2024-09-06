@@ -1,9 +1,10 @@
-name: Generate Auth API Documentation
+name: Generate Auth API Documentation and Deploy Swagger UI
 on:
   pull_request:
     branches: [main]
     paths:
       - 'auth/**'
+
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
@@ -14,16 +15,29 @@ jobs:
         with:
           node-version: '14'
       - name: Install swagger-autogen
-        run: npm install -g swagger-autogen
-      - name: Generate Swagger
         working-directory: ./auth
-        run: swagger-autogen -o ../docs/auth-swagger.json ./src/index.ts
+        run: npm install swagger-autogen
+      - name: Generate Swagger JSON
+        working-directory: ./auth
+        run: npx swagger-autogen -o ../docs/auth-swagger.json ./src/index.ts
+      - name: Generate Swagger UI
+        uses: Legion2/swagger-ui-action@v1
+        with:
+          output: swagger-ui
+          spec-file: docs/auth-swagger.json
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: swagger-ui
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: auth-api-docs
           path: docs/auth-swagger.json
       - name: Comment PR
+        if: github.event_name == 'pull_request'
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
