@@ -15,11 +15,9 @@ jobs:
         with:
           node-version: '14'
       - name: Install swagger-autogen
-        working-directory: ./auth
-        run: npm install swagger-autogen
+        run: cd auth && npm install swagger-autogen
       - name: Generate Swagger JSON
-        working-directory: ./auth
-        run: npx swagger-autogen -o ../docs/auth-swagger.json ./src/index.ts
+        run: cd auth && npx swagger-autogen -o ../docs/auth-swagger.json ./src/index.ts
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
         with:
