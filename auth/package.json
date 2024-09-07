@@ -25,6 +25,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mongoose": "^5.11.97",
     "cookie-session": "^2.1.0",
+    "docugenie": "^0.0.2",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "express-validator": "^7.2.0",
