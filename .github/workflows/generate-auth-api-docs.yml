@@ -27,16 +27,17 @@ jobs:
           ${{ runner.OS }}-node-
 
     - name: Install dependencies
-      run: cd auth && npm install
+      working-directory: ./auth
+      run: npm install
 
     - name: Install docugenie
       run: npm install -g docugenie
 
     - name: Generate OpenAPI Specification and Swagger UI
+      working-directory: ./auth
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
-        cd auth
         docugenie \
           --routes ./src/routes \
           --output ./docs \
