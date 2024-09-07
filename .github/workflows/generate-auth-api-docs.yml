@@ -29,6 +29,9 @@ jobs:
     - name: Install dependencies
       run: cd auth && npm install
 
+    - name: Install docugenie
+      run: npm install -g docugenie
+
     - name: Generate OpenAPI Specification and Swagger UI
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
