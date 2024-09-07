@@ -39,8 +39,7 @@ jobs:
         docugenie \
           --routes ~/auth/src/routes \
           --output ~/auth/docs \
-          --title "Auth API" \
-          --swagger-ui
+          --title "Auth API" 
 
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/main'
