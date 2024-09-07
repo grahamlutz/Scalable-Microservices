@@ -27,7 +27,7 @@ jobs:
           ${{ runner.OS }}-node-
 
     - name: Install dependencies
-      run: cd auth && npm ci
+      run: cd auth && npm install
 
     - name: Generate OpenAPI Specification and Swagger UI
       env:
