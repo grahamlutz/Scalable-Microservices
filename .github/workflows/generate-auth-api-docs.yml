@@ -21,7 +21,7 @@ jobs:
     - name: Cache dependencies
       uses: actions/cache@v2
       with:
-        path: ~/.npm/auth
+        path: ~/.npm
         key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.OS }}-node-
@@ -32,20 +32,14 @@ jobs:
     - name: Install docugenie
       run: npm install -g docugenie
 
-    - name: Debug - List directory contents
-      run: |
-        echo "Current directory:"
-        pwd
-        echo "Contents of current directory:"
-        ls -R
-
     - name: Generate OpenAPI Specification and Swagger UI
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
+        cd auth
         docugenie \
-          --routes ~/auth/src/routes \
-          --output ~/auth/docs \
+          --routes ./src/routes \
+          --output ./docs \
           --title "Auth API" 
 
     - name: Deploy to GitHub Pages
