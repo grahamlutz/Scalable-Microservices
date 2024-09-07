@@ -1,48 +1,48 @@
-name: Generate Auth API Documentation and Deploy Swagger UI
+name: Generate and Deploy API Documentation
+
 on:
+  push:
+    branches: [ main ]
   pull_request:
-    branches: [main]
-    paths:
-      - 'auth/**'
+    branches: [ main ]
 
 jobs:
-  generate-docs:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - name: Install swagger-autogen
-        run: cd auth && npm install swagger-autogen
-      - name: Generate Swagger JSON
-        run: cd auth && npx swagger-autogen -o ../docs/auth-swagger.json ./src/index.ts
-      - name: Generate Swagger UI
-        uses: Legion2/swagger-ui-action@v1
-        with:
-          output: swagger-ui
-          spec-file: docs/auth-swagger.json
-      - name: Deploy to GitHub Pages
-        if: github.event_name == 'push'
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: swagger-ui
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: auth-api-docs
-          path: docs/auth-swagger.json
-      - name: Comment PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Auth API documentation has been generated. You can download it from the Artifacts section of this workflow run.'
-            })
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm/auth
+        key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.OS }}-node-
+
+    - name: Install dependencies
+      run: cd auth && npm ci
+
+    - name: Generate OpenAPI Specification and Swagger UI
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        npx docugenie \
+          --routes ./auth/src/routes \
+          --output ./auth/docs \
+          --title "Auth API" \
+          --swagger-ui
+
+    - name: Deploy to GitHub Pages
+      if: github.ref == 'refs/heads/main'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./auth/docs
+        keep_files: true
