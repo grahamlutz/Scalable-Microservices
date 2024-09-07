@@ -27,20 +27,18 @@ jobs:
           ${{ runner.OS }}-node-
 
     - name: Install dependencies
-      working-directory: ./auth
       run: npm install
 
     - name: Install docugenie
       run: npm install -g docugenie
 
     - name: Generate OpenAPI Specification and Swagger UI
-      working-directory: ./auth
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         docugenie \
-          --routes ./src/routes \
-          --output ./docs \
+          --routes ${{ github.workspace }}/auth/src/routes \
+          --output ${{ github.workspace }}/auth/docs \
           --title "Auth API" 
 
     - name: Deploy to GitHub Pages
@@ -48,5 +46,5 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./auth/docs
+        publish_dir: ${{ github.workspace }}/auth/auth/docs
         keep_files: true
