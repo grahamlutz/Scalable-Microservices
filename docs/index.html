@@ -1,165 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>Swagger UI</title>
-    <link rel="stylesheet" type="text/css" href="./swagger-ui/swagger-ui.css" >
-    <link rel="icon" type="image/png" href="./swagger-ui/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="./swagger-ui/favicon-16x16.png" sizes="16x16" />
-    <style>
-        html { box-sizing: border-box; overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
-        *, *:before, *:after { box-sizing: inherit; }
-        body { margin: 0; background: #fafafa; }
-    </style>
-</head>
-<body>
+    <link rel="stylesheet" type="text/css" href="swagger-ui/swagger-ui.css" />
+    <link rel="stylesheet" type="text/css" href="swagger-ui/index.css" />
+    <link rel="icon" type="image/png" href="swagger-ui/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="swagger-ui/favicon-16x16.png" sizes="16x16" />
+  </head>
+
+  <body>
     <div id="swagger-ui"></div>
-    <script src="./swagger-ui/swagger-ui-bundle.js"> </script>
-    <script src="./swagger-ui/swagger-ui-standalone-preset.js"> </script>
-    <script>
-    window.onload = function() {
-        const spec = JSON.stringify({
-  "openapi": "3.0.0",
-  "info": {
-    "title": "My API",
-    "version": "1.0.0"
-  },
-  "paths": {
-    "/api/users/currentuser": {
-      "get": {
-        "summary": "Get current user information",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "currentUser": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/users/signin": {
-      "post": {
-        "summary": "Sign in user",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "description": "User email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "description": "User password"
-                  }
-                },
-                "required": [
-                  "email",
-                  "password"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "User successfully signed in"
-          },
-          "400": {
-            "description": "Invalid credentials"
-          }
-        }
-      }
-    },
-    "/api/users/signout": {
-      "post": {
-        "summary": "Signs out a user",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/users/signup": {
-      "post": {
-        "summary": "Create a new user",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "example": "user@example.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 4,
-                    "maxLength": 30,
-                    "example": "password123"
-                  }
-                },
-                "required": [
-                  "email",
-                  "password"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "User created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-});
-        const ui = SwaggerUIBundle({
-            spec,
-            dom_id: '#swagger-ui',
-            deepLinking: true,
-            presets: [
-                SwaggerUIBundle.presets.apis,
-                SwaggerUIStandalonePreset
-            ],
-            plugins: [
-                SwaggerUIBundle.plugins.DownloadUrl
-            ],
-            layout: "StandaloneLayout"
-        });
-        window.ui = ui;
-    }
-    </script>
-</body>
+    <script src="swagger-ui/swagger-ui-bundle.js" charset="UTF-8"> </script>
+    <script src="swagger-ui/swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
+    <script src="swagger-ui/swagger-initializer.js" charset="UTF-8"> </script>
+  </body>
 </html>
